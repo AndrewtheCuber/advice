@@ -1,9 +1,27 @@
 import time
 from colorama import Fore, Back, Style
+from urllib.request import urlopen
+import json
+from datetime import date
 
+
+
+
+today = date.today()
 begin = input("Advice or Case counter?\n")
-
-if begin_Lower == "Advice":
+begin_lower = begin.lower()
+if begin_lower == 'advice':
+  check = False
+elif begin_lower == 'case counter':
+  check = True
+if check == True:
+  html = urlopen("https://api.covid19api.com/summary").read()
+  wjdata = json.loads(html)
+  print('Total US Cases to date',today,':')
+  print(wjdata['Countries'][216]['TotalConfirmed'])
+  print('Total US deaths:')
+  print(wjdata['Countries'][216]['TotalDeaths'])
+elif check == False:
   print(Fore.BLUE + "Hello")
   time.sleep(1.2)
   print(Style.RESET_ALL)
